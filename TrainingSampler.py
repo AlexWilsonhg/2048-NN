@@ -9,6 +9,7 @@ class TrainingSampler:
     def ValidateSamples(self):
         ## sum the individual samples.
         ## sort the array based on sums.
+        ## throw out any samples with 0 sum
         ## array elements must be either 2 or 4 greater than the
         ## previous element to be valid.
         return

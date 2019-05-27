@@ -1,19 +1,12 @@
-class MoveValidator:
-    
-    def __init__(self):
-        self.cachedTiles = []
+class BoardReader:
 
-    def ValidMove(self, driver):
-        newTiles = self.GetTiles(driver)
-        if(self.cachedTiles != newTiles):
-            self.cachedTiles = newTiles
-            return True
-        else:
-            return False
-    
-    def GetTiles(self, driver):
+    def __init__(self, driver):
+        self.driver = driver
+        self.cachedTiles = self.GetTiles()
+        
+    def GetTiles(self):
         tiles = [0] * 16
-        tileDivs = driver.find_elements_by_class_name('tile')
+        tileDivs = self.driver.find_elements_by_class_name('tile')
         for div in tileDivs:
             try:
                 divString = div.get_attribute('class')
@@ -29,3 +22,11 @@ class MoveValidator:
             except:
                 break
         return tiles
+
+    def HasChanged(self):
+        tiles = self.GetTiles()
+        if(tiles == self.cachedTiles):
+            return False
+        else:
+            self.cachedTiles = tiles
+            return True

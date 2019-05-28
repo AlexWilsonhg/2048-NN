@@ -10,6 +10,7 @@ class Mover:
 
         def __init__(self,driver):
                 self.actions = ActionChains(driver)
+                self.driver = driver
 
         def DoMove(self, moves, boardReader):
                 for i in range(len(moves)):
@@ -21,3 +22,10 @@ class Mover:
                         if(boardReader.HasChanged()):
                                 break
                 return
+
+        def Reset(self):
+                ## no clear method for actionchains, so we have to just make a new one.
+                self.actions = ActionChains(self.driver) 
+                                                                                
+
+        

@@ -4,8 +4,6 @@ from Brains.RandomBrain import RandomBrain
 
 players = []
 
-for i in range(5):
-    players.append
 
-for i in range(100):
-    player.TakeTurn()
+players.append(GamePlayer(RandomBrain(), 2))
+

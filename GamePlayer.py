@@ -12,11 +12,22 @@ class GamePlayer:
         self.numGames = numGames
         self.boardReader = BoardReader(self.driver)
         self.mover = Mover(self.driver)
-
+        self.scores = []
 
 
     def TakeTurn(self):
-        tiles = self.boardReader.GetTiles()
-        moves = self.brain.GetMoves(tiles)
-        self.mover.DoMove(moves, self.boardReader)
+        if(self.boardReader.GameOver()):
+            ## click the new game button
+            ## reset all components, store final score
+            self.scores.append(self.boardReader.GetScore())
+            self.boardReader.NewGame()
+            self.boardReader.Reset()
+            self.mover.Reset()
+            self.numGames -= 1
+            
+            
+        else:
+            tiles = self.boardReader.GetTiles()
+            moves = self.brain.GetMoves(tiles)
+            self.mover.DoMove(moves, self.boardReader)
             

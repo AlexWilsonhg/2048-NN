@@ -3,7 +3,36 @@ class BoardReader:
     def __init__(self, driver):
         self.driver = driver
         self.cachedTiles = self.GetTiles()
+
+
+    def HasChanged(self):
+        tiles = self.GetTiles()
+        if(tiles == self.cachedTiles):
+            return False
+        else:
+            self.cachedTiles = tiles
+            return True
+
+
+    def GameOver(self):
+        try:
+            if(self.driver.find_element_by_class_name('game-over')):
+                return True
+
+            else:
+                return False
+        except:
+            return False
+
         
+    def Reset(self):
+        self.cachedTiles = self.GetTiles()
+
+        
+    def GetScore(self):
+        return self.driver.find_element_by_class_name('score-container').text
+
+
     def GetTiles(self):
         tiles = [0] * 16
         tileDivs = self.driver.find_elements_by_class_name('tile')
@@ -23,10 +52,9 @@ class BoardReader:
                 break
         return tiles
 
-    def HasChanged(self):
-        tiles = self.GetTiles()
-        if(tiles == self.cachedTiles):
-            return False
-        else:
-            self.cachedTiles = tiles
-            return True
+
+    def NewGame(self):
+        try:
+            self.driver.find_element_by_class_name('retry-button').click()
+        except:
+            return

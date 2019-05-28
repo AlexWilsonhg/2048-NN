@@ -13,10 +13,10 @@ class Mover:
                 self.driver = driver
 
         def DoMove(self, moves, boardReader):
+                self.actions.reset_actions()
                 for i in range(len(moves)):
                         index = moves.index(max(moves))
                         move = moves.pop(index)
-                        print(move)
                         self.actions.send_keys(keypress[index])
                         self.actions.perform()
                         if(boardReader.HasChanged()):

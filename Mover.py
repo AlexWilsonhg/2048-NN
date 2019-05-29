@@ -16,7 +16,7 @@ class Mover:
                 self.actions.reset_actions()
                 for i in range(len(moves)):
                         index = moves.index(max(moves))
-                        move = moves.pop(index)
+                        moves[index] = 0
                         self.actions.send_keys(keypress[index])
                         self.actions.perform()
                         if(boardReader.HasChanged()):

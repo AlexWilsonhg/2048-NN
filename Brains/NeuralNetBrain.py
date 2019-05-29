@@ -1,3 +1,11 @@
+import numpy as np
+
+def sigmoid(x):
+    return 1 / (1 + np.exp(-x))
+
+def softmax(x):
+    return (np.exp(x) / np.sum(np.exp(x)))
+
 class NeuralNet:
 
     def __init__(self, sizes, learningRate):
@@ -8,10 +16,17 @@ class NeuralNet:
         self.learningRate = learningRate
 
     def ForwardPropagation(self, inparam):
-        return
-        
-    def FeedForward(self, a):
-        return
-            
-    def BackwardProp(self):
-        return
+        A = []
+        for i in range(len(self.sizes)):
+            if(i == 0):
+                A.append(inparam)
+            else:
+                z = np.dot(A[i-1], self.weights[i-1].transpose() ) + self.biases[i-1].transpose()
+                g = sigmoid(z)
+                A.append(g)
+        return softmax(A[-1])
+
+
+    
+    def GetMoves(self, tiles):
+        return self.ForwardPropagation(tiles).tolist()[0]

@@ -24,8 +24,6 @@ class GamePlayer:
         else:
             self.timeSinceLastMove = 0.0
             if(self.boardReader.GameOver()):
-                ## click the new game button
-                ## reset all components, store final score
                 self.scores.append(self.boardReader.GetScore())
                 self.boardReader.NewGame()
                 self.boardReader.Reset()

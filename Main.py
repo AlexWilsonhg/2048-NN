@@ -1,20 +1,22 @@
 from selenium import webdriver
 from GamePlayer import GamePlayer
-from Brains.RandomBrain import RandomBrain
+from Brains.NeuralNetBrain import NeuralNet
 import time
 
 activePlayers = []
 inactivePlayers = []
 
 
-activePlayers.append(GamePlayer(RandomBrain(), 2, 1))
-activePlayers.append(GamePlayer(RandomBrain(), 5, 1))
+activePlayers.append(GamePlayer(NeuralNet([16,32,32,16,4],0.01), 500, 0.125))
+activePlayers.append(GamePlayer(NeuralNet([16,32,4],0.01), 500, 0.125))
+activePlayers.append(GamePlayer(NeuralNet([16,32,32,16,4],0.01), 500, 0.125))
+
+
 
 def Step(deltaTime):
     for i in activePlayers:
         i.Update(deltaTime)
         
-   
 def Run():
     deltaTime = time.time()
     while(len(activePlayers) > 0):

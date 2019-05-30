@@ -26,7 +26,5 @@ class NeuralNet:
                 A.append(g)
         return softmax(A[-1])
 
-
-    
     def GetMoves(self, tiles):
         return self.ForwardPropagation(tiles).tolist()[0]

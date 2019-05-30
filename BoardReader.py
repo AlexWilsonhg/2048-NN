@@ -24,13 +24,13 @@ class BoardReader:
         except:
             return False
 
-        
+
     def Reset(self):
         self.cachedTiles = self.GetTiles()
 
-        
+
     def GetScore(self):
-        return self.driver.find_element_by_class_name('score-container').text
+        return int(self.driver.find_element_by_class_name('score-container').text.split('\n')[0])
 
 
     def GetTiles(self):

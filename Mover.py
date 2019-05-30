@@ -23,9 +23,5 @@ class Mover:
                                 break
                 return
 
-        def Reset(self):
-                ## no clear method for actionchains, so we have to just make a new one.
-                self.actions = ActionChains(self.driver) 
-                                                                                
 
-        
+                           

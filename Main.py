@@ -10,12 +10,12 @@ inactivePlayers = []
 avgScores = []
 genetics = Genetics(0.1, 0.05)
 
-activePlayers.append(GamePlayer(NeuralNet([16,64,64,32, 4],0.01), 0.125))
-activePlayers.append(GamePlayer(NeuralNet([16,64,64,32, 4],0.01), 0.125))
-activePlayers.append(GamePlayer(NeuralNet([16,64,64,32, 4],0.01), 0.125))
-activePlayers.append(GamePlayer(NeuralNet([16,64,64,32, 4],0.01), 0.125))
-activePlayers.append(GamePlayer(NeuralNet([16,64,64,32, 4],0.01), 0.125))
-activePlayers.append(GamePlayer(NeuralNet([16,64,64,32, 4],0.01), 0.125))
+activePlayers.append(GamePlayer(NeuralNet([16,32, 4],0.01), 0.125))
+activePlayers.append(GamePlayer(NeuralNet([16,32, 4],0.01), 0.125))
+activePlayers.append(GamePlayer(NeuralNet([16,32, 4],0.01), 0.125))
+activePlayers.append(GamePlayer(NeuralNet([16,32, 4],0.01), 0.125))
+activePlayers.append(GamePlayer(NeuralNet([16,32, 4],0.01), 0.125))
+activePlayers.append(GamePlayer(NeuralNet([16,32, 4],0.01), 0.125))
 
 def Step(deltaTime):
     for i in reversed(activePlayers):
@@ -46,8 +46,8 @@ def AverageScore(gameplayers):
     scoresSum = 0
     for i in gameplayers:
         scoresSum += np.mean(i.scores)
-    avg = scoresSum / len(gameplayers)
-
+    return scoresSum / len(gameplayers)
+    
 def Simulate(numEpochs, gamesPerEpoch):
     epochsRemaining = numEpochs
     while(epochsRemaining > 0):

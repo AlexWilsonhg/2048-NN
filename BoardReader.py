@@ -2,6 +2,7 @@ class BoardReader:
 
     def __init__(self, driver):
         self.driver = driver
+        self.tileContainer = self.driver.find_element_by_class_name('tile-container')
         self.cachedTiles = self.GetTiles()
 
 
@@ -35,7 +36,7 @@ class BoardReader:
 
     def GetTiles(self):
         tiles = [0] * 16
-        tileDivs = self.driver.find_elements_by_class_name('tile')
+        tileDivs = self.tileContainer.find_elements_by_css_selector('div.tile')
         for div in tileDivs:
             try:
                 divString = div.get_attribute('class')

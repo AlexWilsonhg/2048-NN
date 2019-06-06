@@ -1,6 +1,3 @@
-from selenium import webdriver
-import numpy as np
-
 
 from Simulator import Simulator
 

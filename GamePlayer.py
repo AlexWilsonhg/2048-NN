@@ -28,7 +28,6 @@ class GamePlayer:
             self.timeSinceLastMove = 0.0
             if(self.boardReader.GameOver()):
                 self.Reset()
-                
             else:
                 self.TakeTurn()
       

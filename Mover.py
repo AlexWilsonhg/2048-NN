@@ -22,6 +22,3 @@ class Mover:
                         if(boardReader.HasChanged()):
                                 break
                 return
-
-
-                           

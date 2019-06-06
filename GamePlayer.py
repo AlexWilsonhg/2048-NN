@@ -27,14 +27,19 @@ class GamePlayer:
         else:
             self.timeSinceLastMove = 0.0
             if(self.boardReader.GameOver()):
-                self.scores.append(self.boardReader.GetScore())
-                self.boardReader.NewGame()
-                self.boardReader.Reset()
-                self.numGames -= 1
-
+                self.Reset()
+                
             else:
-                tiles = self.boardReader.GetTiles()
-                moves = self.brain.GetMoves(tiles)
-                self.mover.DoMove(moves, self.boardReader)
+                self.TakeTurn()
+      
+    def Reset(self):
+        self.scores.append(self.boardReader.GetScore())
+        self.boardReader.NewGame()
+        self.boardReader.Reset()
+        self.numGames -= 1
 
-            
+    def TakeTurn(self):
+        tiles = self.boardReader.GetTiles()
+        moves = self.brain.GetMoves(tiles)
+        self.mover.DoMove(moves, self.boardReader)
+        

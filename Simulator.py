@@ -1,6 +1,7 @@
 from GamePlayer import GamePlayer
 from Brains.NeuralNetBrain import NeuralNet
 from Genetics import Genetics
+import numpy as np
 import time
 
 class Simulator:

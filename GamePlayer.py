@@ -1,6 +1,3 @@
-from selenium import webdriver
-from Web2048 import Web2048
-
 class GamePlayer:
 
     def __init__(self, brain, game, moveDelay = 0.125):

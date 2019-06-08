@@ -1,5 +1,5 @@
 import numpy as np
-import MyMath as m
+import Brains.MyMath as m
 
 class NeuralNet:
 
@@ -25,5 +25,3 @@ class NeuralNet:
     def GetMoves(self, tiles):
         tiles = m.normalize(tiles)
         return self.ForwardPropagation(tiles).tolist()[0]
-
-    

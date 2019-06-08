@@ -1,33 +1,31 @@
-class BoardReader:
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.keys import Keys
+from selenium import webdriver
+from iGame import iGame
 
-    def __init__(self, driver):
-        self.driver = driver
+keypress = [Keys.ARROW_DOWN,
+            Keys.ARROW_RIGHT,
+            Keys.ARROW_UP,
+            Keys.ARROW_LEFT]
+
+class Web2048(iGame):
+
+    def __init__(self):
+        self.driver = webdriver.Chrome('C:\\Users\\wat\\Desktop\\chromedriver')
+        if(self.driver):
+            self.driver.get('https://play2048.co/')
+        self.actions = ActionChains(self.driver)
         self.tileContainer = self.driver.find_element_by_class_name('tile-container')
         self.cachedTiles = self.GetTiles()
-
-
-    def HasChanged(self):
-        tiles = self.GetTiles()
-        if(tiles == self.cachedTiles):
-            return False
-        else:
-            self.cachedTiles = tiles
-            return True
-
-
+        
     def GameOver(self):
         try:
             if(self.driver.find_element_by_class_name('game-over')):
                 return True
-
             else:
                 return False
         except:
             return False
-
-
-    def Reset(self):
-        self.cachedTiles = self.GetTiles()
 
 
     def GetScore(self):
@@ -57,5 +55,16 @@ class BoardReader:
     def NewGame(self):
         try:
             self.driver.find_element_by_class_name('retry-button').click()
+            self.cachedTiles = self.GetTiles()
         except:
             return
+
+    def DoMove(self, moves):
+        self.actions.reset_actions()
+        for i in range(len(moves)):
+            index = moves.index(max(moves))
+            moves[index] = 0
+            self.actions.send_keys(keypress[index])
+            self.actions.perform()
+            if(self.HasChanged()):
+                break

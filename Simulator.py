@@ -1,20 +1,19 @@
 from GamePlayer import GamePlayer
 from Brains.NeuralNetBrain import NeuralNet
 from Genetics import Genetics
-import numpy as np
 import time
 
 class Simulator:
 
-    def __init__(self, numPlayers, epochs, gamesPerEpoch):
+    def __init__(self, numPlayers, gameSource, epochs, gamesPerEpoch):
         self.activePlayers = []
-        self.inactivePlayers =[]
+        self.inactivePlayers = []
         self.avgScores = []
         self.epochs = epochs
         self.gamesPerEpoch = gamesPerEpoch
         self.genetics = Genetics(0.1,0.05)
         for i in range(numPlayers):
-            self.activePlayers.append(GamePlayer(NeuralNet([16,32,4], 0.01), 0.0125))
+            self.activePlayers.append(GamePlayer(NeuralNet([16,32,4], 0.01), gameSource))
 
 
     def ResetGameplayers(self):

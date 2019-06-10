@@ -13,16 +13,20 @@ class Simulator:
         self.epochs = epochs
         self.gamesPerEpoch = gamesPerEpoch
         self.genetics = Genetics(0.1,0.05)
+        
         for i in range(numPlayers):
-            self.activePlayers.append(GamePlayer(NeuralNet([16,32,4], 0.01), gameSource))
+            self.inactivePlayers.append(GamePlayer(NeuralNet([16,32,4], 0.01), gameSource))
+        self.ResetGamePlayers()
 
 
     def ResetGamePlayers(self):
         for i in self.inactivePlayers:
+            i.numGames = self.gamesPerEpoch
+            i.scores = []
             self.activePlayers.append(i)
         self.inactivePlayers.clear()
-                                
 
+                   
     def AverageScore(self):
         avg = 0
         scoresSum = 0
@@ -31,33 +35,29 @@ class Simulator:
         return scoresSum / len(self.inactivePlayers)
 
 
-    def Step(self, deltaTime):
+    def UpdateGamePlayers(self, deltaTime):
         for i in reversed(self.activePlayers):
             i.Update(deltaTime)
             if i.numGames == 0:
                 self.inactivePlayers.append(i)
                 self.activePlayers.remove(i)
 
-    
-    ##TODO: make simulator update non-blocking.                           
-    def RunEpoch(self):
-        for player in self.activePlayers:
-            player.numGames = self.gamesPerEpoch
-            player.scores = []
+                         
+    def Update(self, deltaTime):
+        if(self.hasEpochsRemaining()):
+            if(self.hasActivePlayers()):
+                self.UpdateGamePlayers(deltaTime)
+            else:
+                self.epochs -= 1
+                self.avgScores.append(self.AverageScore())
 
-        deltaTime = time.time()
-        while(len(self.activePlayers) > 0):
-            start = time.time()
-            self.Step(deltaTime)
-            end = time.time()
-            deltaTime = end-start
-        self.epochs -= 1
-        self.avgScores.append(self.AverageScore())
-
-                                 
+                    
     def hasEpochsRemaining(self):
         return self.epochs > 0
-                                 
+
+    def hasActivePlayers(self):
+        return len(self.activePlayers) > 0
+
 
     def EvolveGamePlayers(self):
         newWeights = self.genetics.Evolve(self.inactivePlayers)

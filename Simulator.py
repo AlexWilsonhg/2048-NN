@@ -17,7 +17,7 @@ class Simulator:
             self.activePlayers.append(GamePlayer(NeuralNet([16,32,4], 0.01), gameSource))
 
 
-    def ResetGameplayers(self):
+    def ResetGamePlayers(self):
         for i in self.inactivePlayers:
             self.activePlayers.append(i)
         self.inactivePlayers.clear()
@@ -38,7 +38,8 @@ class Simulator:
                 self.inactivePlayers.append(i)
                 self.activePlayers.remove(i)
 
-                               
+    
+    ##TODO: make simulator update non-blocking.                           
     def RunEpoch(self):
         for player in self.activePlayers:
             player.numGames = self.gamesPerEpoch

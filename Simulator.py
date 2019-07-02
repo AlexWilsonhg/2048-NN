@@ -14,7 +14,8 @@ class Simulator:
         self.genetics = Genetics(0.1,0.05)
         
         for i in range(numPlayers):
-            self.inactivePlayers.append(GamePlayer(NeuralNet([16,32,4], 0.01), gameSource))
+            game = gameSource()
+            self.inactivePlayers.append(GamePlayer(NeuralNet([16,32,4], 0.01), game))
         self.ResetGamePlayers()
 
 
@@ -49,6 +50,7 @@ class Simulator:
             else:
                 self.generations -= 1
                 self.avgScores.append(self.GetAverageScore())
+                self.EvolveGamePlayers()
 
                     
     def HasGenerationsRemaining(self):
@@ -62,18 +64,4 @@ class Simulator:
     def EvolveGamePlayers(self):
         newWeights = self.genetics.Evolve(self.inactivePlayers)
         for i in range(len(self.inactivePlayers)):
-            inactivePlayers[i].brain.weights = newWeights[i]
-
-
-    def EstimateGenerationEnd(self):
-        highestDurationAverage = 0
-        slowestPlayer = None
-        for i in self.activePlayers:
-            average = i.GetAverageGameDuration()
-            if average >= highestDurationAverage:
-                highestDurationAverage = average
-                slowestPlayer = i
-
-        gamesLeft = slowestPlayer.GetGamesRemaining()
-        estimatedTimeLeft = average * gamesLeft
-        return estimatedTimeLeft
+            self.inactivePlayers[i].brain.weights = newWeights[i]

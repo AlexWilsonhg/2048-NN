@@ -1,7 +1,7 @@
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 from selenium import webdriver
-from iGame import iGame
+from .iGame import iGame
 
 keypress = [Keys.ARROW_DOWN,
             Keys.ARROW_RIGHT,
@@ -18,7 +18,7 @@ class Web2048(iGame):
         self.tileContainer = self.driver.find_element_by_class_name('tile-container')
         self.cachedTiles = self.GetTiles()
         
-    def GameOver(self):
+    def IsGameOver(self):
         try:
             if(self.driver.find_element_by_class_name('game-over')):
                 return True
@@ -68,3 +68,6 @@ class Web2048(iGame):
             self.actions.perform()
             if(self.HasChanged()):
                 break
+
+    def Close(self):
+        self.driver.quit()

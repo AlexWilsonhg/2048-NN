@@ -1,6 +1,8 @@
-class GamePlayer:
+from Messaging.BusNode import BusNode
 
-    def __init__(self, brain, game, moveDelay = 0.125):
+class GamePlayer(BusNode):
+
+    def __init__(self, brain, game, eventBus, moveDelay = 0.125):
         self.game = game
         self.brain = brain
         self.scores = []
@@ -10,6 +12,7 @@ class GamePlayer:
         self.currentGameDuration = 0
         self.gameDurations = []
         self.numGames = 0
+        super().__init__(eventBus)
 
     def Update(self, deltaTime):
 
@@ -23,7 +26,8 @@ class GamePlayer:
             return
         else:
             self.timeSinceLastMove = 0.0
-            if(self.game.GameOver()):
+            if(self.game.IsGameOver()):
+                super().SendEvent("Game_Over")
                 self.gameDurations.append(self.currentGameDuration)
                 self.Reset()
             else:
@@ -49,3 +53,6 @@ class GamePlayer:
 
     def GetGamesRemaining(self):
         return self.numGames
+
+    def OnEvent(self, event):
+        pass

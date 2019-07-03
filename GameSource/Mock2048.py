@@ -1,4 +1,4 @@
-from iGame import iGame
+from .iGame import iGame
 
 class Mock2048(iGame):
 

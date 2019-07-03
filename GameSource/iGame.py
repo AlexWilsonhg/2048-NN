@@ -11,7 +11,7 @@ class iGame(ABC):
             return True
         
     @abstractmethod
-    def GameOver(self):
+    def IsGameOver(self):
         pass
 
     @abstractmethod
@@ -28,4 +28,8 @@ class iGame(ABC):
 
     @abstractmethod
     def DoMove(self, moves):
+        pass
+
+    @abstractmethod
+    def Close(self):
         pass

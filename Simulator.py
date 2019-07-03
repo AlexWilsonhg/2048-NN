@@ -5,7 +5,7 @@ import numpy as np
 
 class Simulator:
 
-    def __init__(self, numPlayers, gameSource, generations, gamesPerGeneration):
+    def __init__(self, numPlayers, gameSource, generations, gamesPerGeneration, eventBus):
         self.activePlayers = []
         self.inactivePlayers = []
         self.avgScores = []
@@ -15,7 +15,7 @@ class Simulator:
         
         for i in range(numPlayers):
             game = gameSource()
-            self.inactivePlayers.append(GamePlayer(NeuralNet([16,32,4], 0.01), game))
+            self.inactivePlayers.append(GamePlayer(NeuralNet([16,32,4], 0.01), game, eventBus))
         self.ResetGamePlayers()
 
 
@@ -44,13 +44,12 @@ class Simulator:
 
                          
     def Update(self, deltaTime):
-        if(self.HasGenerationsRemaining()):
-            if(self.HasActivePlayers()):
-                self.UpdateGamePlayers(deltaTime)
-            else:
-                self.generations -= 1
-                self.avgScores.append(self.GetAverageScore())
-                self.EvolveGamePlayers()
+        if(self.HasGenerationsRemaining() & self.HasActivePlayers()):
+            self.UpdateGamePlayers(deltaTime)
+        else:
+            self.generations -= 1
+            self.avgScores.append(self.GetAverageScore())
+            self.EvolveGamePlayers()
 
                     
     def HasGenerationsRemaining(self):

@@ -25,7 +25,7 @@ class UI(BusNode):
 		self.fileMenu = Menu(self.menu)
 		self.menu.add_cascade(label="File", menu = self.fileMenu)
 		self.fileMenu.add_command(label="New Sim", command = self.NewSim)
-		self.fileMenu.add_command(label="Close Sim")
+		self.fileMenu.add_command(label="Close Sim", command = self.CloseSim)
 
 			## Save / Load Sim ( MAYBE )
 
@@ -55,3 +55,6 @@ class UI(BusNode):
 
 	def NewSim(self):
 		super().SendEvent(NEW_SIMULATION(Web2048, 2, 2, 2))
+
+	def CloseSim(self):
+		super().SendEvent(CLOSE_SIMULATION())

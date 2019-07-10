@@ -60,3 +60,6 @@ class GamePlayer(BusNode):
 
     def OnEvent(self, event):
         pass
+
+    def Close(self):
+        self.game.Close()

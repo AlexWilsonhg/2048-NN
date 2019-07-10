@@ -111,5 +111,5 @@ class Simulator(BusNode):
         elif(type(event) == PAUSE_SIMULATION):
             self.Pause()
 
-        elif(type(Event) == CLOSE_SIMULATION):
-            self.CloseSimulation(self)
+        elif(type(event) == CLOSE_SIMULATION):
+            self.CloseSimulation()

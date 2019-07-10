@@ -5,7 +5,7 @@ class EventBus():
 		self.events = []
 		self.listeners = []
 	
-	def Notify(self):
+	def NotifyListeners(self):
 		for event in self.events:
 			for listener in self.listeners:
 				listener.OnEvent(event)

@@ -64,3 +64,4 @@ class Simulator:
         newWeights = self.genetics.Evolve(self.inactivePlayers)
         for i in range(len(self.inactivePlayers)):
             self.inactivePlayers[i].brain.weights = newWeights[i]
+            self.inactivePlayers[i].generation += 1

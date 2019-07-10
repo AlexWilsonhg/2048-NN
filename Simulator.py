@@ -53,13 +53,12 @@ class Simulator(BusNode):
                          
     def Update(self, deltaTime):
         if(self.running):
-            if(self.HasGenerationsRemaining() & self.HasActivePlayers()):
+            if(self.HasActivePlayers()):
                 self.UpdateGamePlayers(deltaTime)
-            else:
+            elif(self.HasGenerationsRemaining()):
                 self.generations -= 1
                 self.avgScores.append(self.GetAverageScore())
                 self.EvolveGamePlayers()
-
                     
     def HasGenerationsRemaining(self):
         return self.generations > 0
@@ -87,7 +86,6 @@ class Simulator(BusNode):
         self.avgScores = []
         self.generations = generations
         self.gamesPerGeneration = gamesPerGeneration
-        self.generations = generations
         for i in range(numPlayers):
             game = gameSource()
             self.inactivePlayers.append(GamePlayer(NeuralNet([16,32,4], 0.01), game, self.bus))
@@ -96,6 +94,8 @@ class Simulator(BusNode):
     def CloseSimulation(self):
         self.Pause()
         self.ResetGamePlayers()
+        self.generations = 0
+        self.avgScores = []
         for player in self.activePlayers:
             player.Close()
         self.activePlayers.clear()

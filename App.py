@@ -1,11 +1,19 @@
-from Messaging.BusNode import BusNode
-from Messaging.Events import *
+from Simulator import Simulator
+from GameSource.Web2048 import Web2048
+from GameSource.Mock2048 import Mock2048
+from GameSource.Desktop2048 import Desktop2048
 
-class Application(BusNode):
+from Messaging.EventBus import EventBus
+from UI.UI import UI
 
-	def __init__(self, eventBus):
-		super().__init__(eventBus)
+class Application():
 
+	def __init__(self):
+		self.bus = EventBus()
+		self.simulator = Simulator(self.bus)
+		self.ui = UI(self.bus)
 
-	def OnEvent(self, event):
-		print("test")
+	def Update(self, deltaTime):
+		self.simulator.Update(deltaTime)
+		self.bus.NotifyListeners()
+		self.ui.Update()

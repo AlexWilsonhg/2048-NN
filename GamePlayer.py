@@ -14,7 +14,9 @@ class GamePlayer(BusNode):
         self.gameDurations = []
         self.numGames = 0
         self.generation = 1
+
         super().__init__(eventBus)
+        self.bus = eventBus
 
     def Update(self, deltaTime):
 
@@ -29,7 +31,7 @@ class GamePlayer(BusNode):
         else:
             self.timeSinceLastMove = 0.0
             if(self.game.IsGameOver()):
-                super().SendEvent(GAME_OVER(self.game.GetScore(), self.generation))
+                self.bus.SendEvent(GAME_OVER(self.game.GetScore(), self.generation))
                 self.gameDurations.append(self.currentGameDuration)
                 self.Reset()
             else:

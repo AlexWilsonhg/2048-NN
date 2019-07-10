@@ -4,16 +4,20 @@ class GAME_OVER:
 		self.generation = generation
 
 class NEW_SIMULATION:
-        def __init__(self, gameSource, numPlayer, generations, gamesPerGeneration):
+        def __init__(self, gameSource, numPlayers, generations, gamesPerGeneration):
                 self.gameSource = gameSource
-                self.numPlayer = numPlayer
+                self.numPlayers = numPlayers
                 self.generations = generations
                 self.gamesPerGeneration = gamesPerGeneration
 
-class PLAY_SIM:
+class PLAY_SIMULATION:
 	def __init__(self):
 		pass
 
-class PAUSE_SIM:
+class PAUSE_SIMULATION:
+	def __init__(self):
+		pass
+
+class CLOSE_SIMULATION:
 	def __init__(self):
 		pass

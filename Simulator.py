@@ -1,22 +1,30 @@
 from GamePlayer import GamePlayer
 from Brains.NeuralNetBrain import NeuralNet
 from Genetics import Genetics
+
+from GameSource.Web2048 import Web2048
+from GameSource.Mock2048 import Mock2048
+from GameSource.Desktop2048 import Desktop2048
+
+from Messaging.BusNode import BusNode
+from Messaging.Events import *
+
 import numpy as np
 
-class Simulator:
 
-    def __init__(self, numPlayers, gameSource, generations, gamesPerGeneration, eventBus):
+class Simulator(BusNode):
+
+    def __init__(self, eventBus):
         self.activePlayers = []
         self.inactivePlayers = []
         self.avgScores = []
-        self.generations = generations
-        self.gamesPerGeneration = gamesPerGeneration
+        self.generations = 0
+        self.gamesPerGeneration = 0
         self.genetics = Genetics(0.1,0.05)
-        
-        for i in range(numPlayers):
-            game = gameSource()
-            self.inactivePlayers.append(GamePlayer(NeuralNet([16,32,4], 0.01), game, eventBus))
-        self.ResetGamePlayers()
+        self.running = False
+
+        super().__init__(eventBus)
+        self.bus = eventBus
 
 
     def ResetGamePlayers(self):
@@ -44,12 +52,13 @@ class Simulator:
 
                          
     def Update(self, deltaTime):
-        if(self.HasGenerationsRemaining() & self.HasActivePlayers()):
-            self.UpdateGamePlayers(deltaTime)
-        else:
-            self.generations -= 1
-            self.avgScores.append(self.GetAverageScore())
-            self.EvolveGamePlayers()
+        if(self.running):
+            if(self.HasGenerationsRemaining() & self.HasActivePlayers()):
+                self.UpdateGamePlayers(deltaTime)
+            else:
+                self.generations -= 1
+                self.avgScores.append(self.GetAverageScore())
+                self.EvolveGamePlayers()
 
                     
     def HasGenerationsRemaining(self):
@@ -65,3 +74,42 @@ class Simulator:
         for i in range(len(self.inactivePlayers)):
             self.inactivePlayers[i].brain.weights = newWeights[i]
             self.inactivePlayers[i].generation += 1
+
+    def Pause(self):
+        self.running = False
+
+    def Play(self):
+        self.running = True
+
+    def NewSimulation(self, gameSource, numPlayers, generations, gamesPerGeneration):
+        self.activePlayers = []
+        self.inactivePlayers = []
+        self.avgScores = []
+        self.generations = generations
+        self.gamesPerGeneration = gamesPerGeneration
+        self.generations = generations
+        for i in range(numPlayers):
+            game = gameSource()
+            self.inactivePlayers.append(GamePlayer(NeuralNet([16,32,4], 0.01), game, self.bus))
+        self.ResetGamePlayers()
+
+    def CloseSimulation(self):
+        self.Pause()
+        self.ResetGamePlayers()
+        for player in self.activePlayers:
+            player.Close()
+        self.activePlayers.clear()
+
+    def OnEvent(self, event):
+        if(type(event) == NEW_SIMULATION):
+            self.CloseSimulation()
+            self.NewSimulation(event.gameSource, event.numPlayers, event.generations, event.gamesPerGeneration)
+
+        elif(type(event) == PLAY_SIMULATION):
+            self.Play()
+
+        elif(type(event) == PAUSE_SIMULATION):
+            self.Pause()
+
+        elif(type(Event) == CLOSE_SIMULATION):
+            self.CloseSimulation(self)

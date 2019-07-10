@@ -7,17 +7,13 @@ from App import Application
 from UI.UI import UI
 import time
 
-bus = EventBus()
-#sim = Simulator(2, Web2048, 1, 5, bus)
-ui = UI(bus)
-app = Application(bus)
 
-def main():
+app = Application()
+
+if __name__ == "__main__":
     deltaTime = 0
     while(True):
         start = time.time()
-        #sim.Update(deltaTime)
-        bus.NotifyListeners()
-        ui.Update()
+        app.Update(deltaTime)
         end = time.time()
         deltaTime = end - start

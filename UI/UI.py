@@ -1,6 +1,7 @@
+from tkinter import *
+
 from Messaging.BusNode import BusNode
 from Messaging.Events import *
-from tkinter import *
 
 from GameSource.Web2048 import Web2048
 from GameSource.Mock2048 import Mock2048
@@ -16,6 +17,7 @@ class UI(BusNode):
 		self.window.title('2048 Neural Evolution')
 		self.window.geometry('1200x800')
 		self.window.minsize(width = 800, height = 500)
+		self.window.protocol("WM_DELETE_WINDOW", self.Shutdown)
 
 		## Menu bar
 		self.menu = Menu(self.window)
@@ -54,7 +56,11 @@ class UI(BusNode):
 		super().SendEvent(PLAY_SIMULATION())
 
 	def NewSim(self):
-		super().SendEvent(NEW_SIMULATION(Web2048, 2, 2, 2))
+		super().SendEvent(NEW_SIMULATION(Web2048, 2, 2, 1))
 
 	def CloseSim(self):
 		super().SendEvent(CLOSE_SIMULATION())
+
+	def Shutdown(self):
+		super().SendEvent(SHUTDOWN())
+		self.window.destroy()

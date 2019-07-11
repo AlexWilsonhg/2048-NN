@@ -11,7 +11,6 @@ from Messaging.Events import *
 
 import numpy as np
 
-
 class Simulator(BusNode):
 
     def __init__(self, eventBus):
@@ -56,9 +55,11 @@ class Simulator(BusNode):
             if(self.HasActivePlayers()):
                 self.UpdateGamePlayers(deltaTime)
             elif(self.HasGenerationsRemaining()):
+                super().SendEvent(NEW_GENERATION())
                 self.generations -= 1
                 self.avgScores.append(self.GetAverageScore())
                 self.EvolveGamePlayers()
+                self.ResetGamePlayers()
                     
     def HasGenerationsRemaining(self):
         return self.generations > 0
@@ -112,4 +113,7 @@ class Simulator(BusNode):
             self.Pause()
 
         elif(type(event) == CLOSE_SIMULATION):
+            self.CloseSimulation()
+
+        elif(type(event) == SHUTDOWN):
             self.CloseSimulation()

@@ -18,6 +18,7 @@ class Web2048(iGame):
         self.tileContainer = self.driver.find_element_by_class_name('tile-container')
         self.cachedTiles = self.GetTiles()
         
+        
     def IsGameOver(self):
         try:
             if(self.driver.find_element_by_class_name('game-over')):

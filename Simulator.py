@@ -60,6 +60,7 @@ class Simulator(BusNode):
                 self.avgScores.append(self.GetAverageScore())
                 self.EvolveGamePlayers()
                 self.ResetGamePlayers()
+                
                     
     def HasGenerationsRemaining(self):
         return self.generations > 0

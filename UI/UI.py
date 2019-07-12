@@ -7,7 +7,7 @@ from GameSource.Web2048 import Web2048
 from GameSource.Mock2048 import Mock2048
 from GameSource.Desktop2048 import Desktop2048
 
-from UI.Graph import Graph
+from UI.ScoreGraph import ScoreGraph
 
 class UI(BusNode):
 
@@ -22,11 +22,11 @@ class UI(BusNode):
 		self.window.protocol("WM_DELETE_WINDOW", self.Shutdown)
 
 		## Menu bar
-		self.menu = Menu(self.window)
+		self.menu = Menu(self.window, tearoff = 0)
 		self.window.config(menu = self.menu)
 
 		## File sub-menu
-		self.fileMenu = Menu(self.menu)
+		self.fileMenu = Menu(self.menu, tearoff = 0)
 		self.menu.add_cascade(label="File", menu = self.fileMenu)
 		self.fileMenu.add_command(label="New Sim", command = self.NewSim)
 		self.fileMenu.add_command(label="Close Sim", command = self.CloseSim)
@@ -46,9 +46,7 @@ class UI(BusNode):
 		## Sim Score Graph
 		self.ScoreGraphFrame = Frame(self.window, bg = 'gray', bd = 4, relief = "ridge")
 		self.ScoreGraphFrame.place(relheight = 0.85, relwidth = 0.9, relx = 0.05, rely = 0.1, anchor = NW)
-		self.ScoreGraph = Graph(self.ScoreGraphFrame, 400, 400)
-
-		self.CurrentGeneration = 0
+		self.ScoreGraph = ScoreGraph(self.ScoreGraphFrame, 400, 400)
 
 	def Update(self):
 		self.ScoreGraph.Draw()
@@ -56,11 +54,10 @@ class UI(BusNode):
 
 	def OnEvent(self, event):
 		if(type(event) == NEW_GENERATION):
-			self.ScoreGraph.AddBar()
-			self.CurrentGeneration += 1
+			self.ScoreGraph.AdvanceGeneration()
 
 		if(type(event) == GAME_OVER):
-			self.ScoreGraph.SetBarValue(self.CurrentGeneration, event.score)
+			self.ScoreGraph.SetBarValue(event.score)
 
 	def PauseSim(self):
 		super().SendEvent(PAUSE_SIMULATION())
@@ -70,6 +67,7 @@ class UI(BusNode):
 
 	def NewSim(self):
 		super().SendEvent(NEW_SIMULATION(Mock2048, 2, 1000, 1))
+		self.ScoreGraph.Reset()
 
 	def CloseSim(self):
 		super().SendEvent(CLOSE_SIMULATION())

@@ -21,7 +21,6 @@ class Graph:
 
 	def AddBar(self):
 		self.bars.append(0)
-		print(len(self.bars))
 
 	def SetBarValue(self, xValue, yValue):
 		if(len(self.bars) == 0):
@@ -39,4 +38,4 @@ class Graph:
 			self.canvas.create_rectangle(position * self.BarWidth +self.BarPadding, self.height - (self.height * (bar/self.yMax)), self.BarWidth + (position * self.BarWidth), 410, fill = "green")
 
 	def ReScale(self):
-		self.BarWidth = (self.width + 300) / len(self.bars)
+		self.BarWidth = (self.width + 500) / len(self.bars)

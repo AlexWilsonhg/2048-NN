@@ -8,6 +8,7 @@ from GameSource.Mock2048 import Mock2048
 from GameSource.Desktop2048 import Desktop2048
 
 from UI.ScoreGraph import ScoreGraph
+from UI.GenerationCounter import GenerationCounter
 
 class UI(BusNode):
 
@@ -35,7 +36,7 @@ class UI(BusNode):
 
 		# Toolbar
 		self.PlayPauseFrame = Frame(self.window, bg = 'gray')
-		self.PlayPauseFrame.place(relheight = 0.05, relwidth = 0.1,relx = 0.5, anchor = N)
+		self.PlayPauseFrame.place(relheight = 0.05, relwidth = 0.1,relx = 0.35, rely = 0.025, anchor = N)
 
 		self.PlayButton = Button(self.PlayPauseFrame, bg = 'green', bd = 1, command = self.PlaySim)
 		self.PlayButton.place(relheight = 0.95, relwidth = 0.40, relx = 0.05)
@@ -45,16 +46,21 @@ class UI(BusNode):
 
 		## Sim Score Graph
 		self.ScoreGraphFrame = Frame(self.window, bg = 'gray', bd = 4, relief = "ridge")
-		self.ScoreGraphFrame.place(relheight = 0.85, relwidth = 0.9, relx = 0.05, rely = 0.1, anchor = NW)
+		self.ScoreGraphFrame.place(relheight = 0.85, relwidth = 0.9, relx = 0.05, rely = 0.10, anchor = NW)
 		self.ScoreGraph = ScoreGraph(self.ScoreGraphFrame, 400, 400)
 
+		## Generation Counter
+		self.GenerationCounter = GenerationCounter(self.window)
+
 	def Update(self):
-		self.ScoreGraph.Draw()
+		self.ScoreGraph.Update()
+		self.GenerationCounter.Update()
 		self.window.update()
 
 	def OnEvent(self, event):
 		if(type(event) == NEW_GENERATION):
 			self.ScoreGraph.AdvanceGeneration()
+			self.GenerationCounter.AdvanceGeneration()
 
 		if(type(event) == GAME_OVER):
 			self.ScoreGraph.SetBarValue(event.score)

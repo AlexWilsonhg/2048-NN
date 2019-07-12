@@ -4,9 +4,10 @@ class ScoreGraph:
 
 	def __init__(self, master, width, height):
 		self.graph = Graph(master, width, height)
+		self.graph.SetYMax(3000)
 		self.generation = 0
 
-	def Draw(self):
+	def Update(self):
 		self.graph.Draw()
 
 	def Reset(self):

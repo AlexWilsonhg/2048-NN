@@ -11,7 +11,8 @@ class Graph:
 		self.BarWidth = width
 		self.width = width
 		self.height = height
-		self.yMax = 3000
+		self.yMax = 0
+		self.yMin = 0
 
 	def Draw(self):
 		self.canvas.delete("all")
@@ -39,3 +40,9 @@ class Graph:
 
 	def ReScale(self):
 		self.BarWidth = (self.width + 500) / len(self.bars)
+
+	def SetYMax(self, value):
+		self.yMax = value
+
+	def SetYMin(self, value):
+		self.yMin = value

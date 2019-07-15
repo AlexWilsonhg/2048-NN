@@ -4,13 +4,18 @@ class GenerationCounter:
 
 	def __init__(self, master):
 		self.currentGeneration = 1
-		self.GenerationCounterFrame = Frame(master)
-		self.GenerationCounterFrame.place(relheight = 0.1, relwidth = 0.1, relx = 0.45)
-		self.GenerationCounterLabel = Label(self.GenerationCounterFrame, text = "", fg = "black")
-		self.GenerationCounterLabel.place(relwidth = 1, relheight = 1)
+
+		self.GenerationCounterText = Label(master, text = "Generation: ", fg = "black")
+		self.GenerationCounterText.place(relheight = 1)
+
+		self.GenerationCounterValue = Label(master, text = "", fg = "black")
+		self.GenerationCounterValue.place(relheight = 1, relx = 0.45)
 		
 	def AdvanceGeneration(self):
 		self.currentGeneration += 1
 
 	def Update(self):
-		self.GenerationCounterLabel.config(text = "Generation: " + str(self.currentGeneration))
+		self.GenerationCounterValue.config(text = str(self.currentGeneration))
+
+	def Reset(self):
+		self.currentGeneration = 1

@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter import ttk
 
 from Messaging.BusNode import BusNode
 from Messaging.Events import *
@@ -23,34 +24,31 @@ class UI(BusNode):
 		self.window.protocol("WM_DELETE_WINDOW", self.Shutdown)
 
 		## Menu bar
-		self.menu = Menu(self.window, tearoff = 0)
-		self.window.config(menu = self.menu)
-
-		## File sub-menu
-		self.fileMenu = Menu(self.menu, tearoff = 0)
-		self.menu.add_cascade(label="File", menu = self.fileMenu)
-		self.fileMenu.add_command(label="New Sim", command = self.NewSim)
-		self.fileMenu.add_command(label="Close Sim", command = self.CloseSim)
-
-			## Save / Load Sim ( MAYBE )
+		self.NewSimButton = ttk.Button(self.window, text = "New Sim", command = self.NewSim)
+		self.NewSimButton.place(relx = 0.025, rely = 0.025)
 
 		# Toolbar
-		self.PlayPauseFrame = Frame(self.window, bg = 'gray')
-		self.PlayPauseFrame.place(relheight = 0.05, relwidth = 0.1,relx = 0.35, rely = 0.025, anchor = N)
+		self.PlayPauseFrame = Frame(self.window)
+		self.PlayPauseFrame.place(relheight = 0.05, relwidth = 0.2, relx = 0.25, rely = 0.025, anchor = N)
 
-		self.PlayButton = Button(self.PlayPauseFrame, bg = 'green', bd = 1, command = self.PlaySim)
-		self.PlayButton.place(relheight = 0.95, relwidth = 0.40, relx = 0.05)
+		self.PlayButton = ttk.Button(self.PlayPauseFrame, text = "Play", command = self.PlaySim)
+		self.PlayButton.place(relheight = 1, relwidth = 0.40, relx = 0.05)
 
-		self.PauseButton = Button(self.PlayPauseFrame, bg = 'red', bd = 1, command = self.PauseSim)
-		self.PauseButton.place(relheight = 0.95, relwidth = 0.40, relx = 0.55)
+		self.PauseButton = ttk.Button(self.PlayPauseFrame, text = "Pause", command = self.PauseSim)
+		self.PauseButton.place(relheight = 1, relwidth = 0.40, relx = 0.55)
 
 		## Sim Score Graph
-		self.ScoreGraphFrame = Frame(self.window, bg = 'gray', bd = 4, relief = "ridge")
-		self.ScoreGraphFrame.place(relheight = 0.85, relwidth = 0.9, relx = 0.05, rely = 0.10, anchor = NW)
+		self.ScoreGraphFrame = Frame(self.window, bd = 1, relief = "sunken")
+		self.ScoreGraphFrame.place(relheight = 0.85, relwidth = 0.95, relx = 0.025, rely = 0.10, anchor = NW)
 		self.ScoreGraph = ScoreGraph(self.ScoreGraphFrame, 400, 400)
 
 		## Generation Counter
-		self.GenerationCounter = GenerationCounter(self.window)
+		self.GenerationCounterFrame = Frame(self.window)
+		self.GenerationCounterFrame.place(relheight = 0.05, relwidth = 0.2, relx = 0.40, rely = 0.025)
+		self.GenerationCounter = GenerationCounter(self.GenerationCounterFrame)
+
+		## Current generation average score
+		self.CurrentGenerationScoreFrame = Frame(self.window)
 
 	def Update(self):
 		self.ScoreGraph.Update()

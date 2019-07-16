@@ -4,13 +4,11 @@ from tkinter import ttk
 from Messaging.BusNode import BusNode
 from Messaging.Events import *
 
-from GameSource.Web2048 import Web2048
-from GameSource.Mock2048 import Mock2048
-from GameSource.Desktop2048 import Desktop2048
-
 from UI.ScoreGraph import ScoreGraph
+from UI.NewSimPopup import NewSimDialog
 from UI.GenerationCounter import GenerationCounter
 from UI.GenerationAverageScore import GenerationAverageScore
+
 
 from Scoring.ScoreLog import ScoreLog
 
@@ -30,7 +28,9 @@ class UI(BusNode):
 		self.ToolbarFrame = Frame(self.window)
 		self.ToolbarFrame.place(relheight = 0.05, relwidth = 0.95, relx = 0.025, rely = 0.025)
 
-		self.NewSimButton = ttk.Button(self.ToolbarFrame, text = "New Sim", command = self.NewSim)
+		# New Sim Button
+
+		self.NewSimButton = ttk.Button(self.ToolbarFrame, text = "New Sim", command = self.NewSimPopup)
 		self.NewSimButton.place(relx = 0)		
 
 		# Play / Pause button
@@ -80,8 +80,8 @@ class UI(BusNode):
 	def PlaySim(self):
 		super().SendEvent(PLAY_SIMULATION())
 
-	def NewSim(self):
-		super().SendEvent(NEW_SIMULATION(Mock2048, 2, 1000, 1))
+	def NewSim(self, gameSource, numPlayers, generations, gamesPerGeneration):
+		super().SendEvent(NEW_SIMULATION(gameSource, numPlayers, generations, gamesPerGeneration))
 		self.GenerationCounter.Reset()
 		self.ScoreLog.Reset()
 		self.ScoreGraph.Reset()
@@ -92,3 +92,6 @@ class UI(BusNode):
 	def Shutdown(self):
 		super().SendEvent(SHUTDOWN())
 		self.window.destroy()
+
+	def NewSimPopup(self):
+		NewSimPopup = NewSimDialog(self)

@@ -38,11 +38,11 @@ class ScoreGraph:
 
 	def DrawBar(self, bar, position):
 		if(bar > 0):
-			self.canvas.create_rectangle(position * self.BarWidth +self.BarPadding, self.height - (self.height * (bar/self.yMax)), self.BarWidth + (position * self.BarWidth), 420, fill = "black")
+			self.canvas.create_rectangle(position * self.BarWidth +self.BarPadding, self.height - (self.height * (bar/self.yMax)), self.BarWidth + (position * self.BarWidth), 420, fill = "green")
 
 	def DrawLine(self, line, position):
 		if(line > 0):
-			self.canvas.create_line(position, self.height - (self.height * (line/self.yMax)), position, 420, fill = "black")
+			self.canvas.create_line(position, self.height - (self.height * (line/self.yMax)), position, 420, fill = "green")
 
 	def ReScale(self, num):
 		self.BarWidth = (self.width / num)

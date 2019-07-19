@@ -28,3 +28,11 @@ class SHUTDOWN:
 class NEW_GENERATION:
 	def __init__(self):
 		pass
+
+class SIMULATION_CREATION_FAILED:
+	def __init__(self):
+		pass
+
+class SIMULATION_CREATION_SUCCESS:
+	def __init__(self):
+		pass

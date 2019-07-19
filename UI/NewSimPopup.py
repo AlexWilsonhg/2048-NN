@@ -17,41 +17,41 @@ class NewSimDialog():
 		self.parent = parent
 		self.window = Toplevel(parent.window)
 		self.window.wm_title("New Simulation")
-		self.window.geometry("300x300")
+		self.window.geometry("300x200")
 		self.window.resizable(False, False)
 		self.window.grab_set()
 
 		self.CreateButton = ttk.Button(self.window, text = "Create", command = self.Create)
-		self.CreateButton.place(relx = 0.40, rely = 0.9)
+		self.CreateButton.place(relx = 0.40, rely = 0.85)
 
 		self.CancelButton = ttk.Button(self.window, text = "Cancel", command = self.Cancel)
-		self.CancelButton.place(relx = 0.70, rely = 0.9)
+		self.CancelButton.place(relx = 0.70, rely = 0.85)
 
 		self.GameSourceLabel = Label(self.window, text = "Game Source:", fg = "black")
-		self.GameSourceLabel.place(relx = 0.05, rely = 0.1)
+		self.GameSourceLabel.place(relx = 0.05, rely = 0.05)
 
 		self.GameSourceVar = StringVar(self.window)
 		self.GameSourceVar.set("Web 2048")
 		self.GameSourceEntryBox = OptionMenu(self.window, self.GameSourceVar, "Web 2048", "Desktop 2048", "Mock 2048")
-		self.GameSourceEntryBox.place(relx = 0.50, rely = 0.075)
+		self.GameSourceEntryBox.place(relx = 0.50, rely = 0.025)
 
 		self.NumberOfGameplayersLabel = Label(self.window, text = "Number of Players:", fg = "black")
-		self.NumberOfGameplayersLabel.place(relx = 0.05, rely = 0.2)
+		self.NumberOfGameplayersLabel.place(relx = 0.05, rely = 0.25)
 
 		self.NumberOfGameplayersSelection = Spinbox(self.window, from_ = 2, to = 10)
-		self.NumberOfGameplayersSelection.place(relx = 0.5, rely = 0.2)
+		self.NumberOfGameplayersSelection.place(relx = 0.5, rely = 0.25)
 
 		self.NumberOfGenerationsLabel = Label(self.window, text = "Number of Generations:", fg = "black")
-		self.NumberOfGenerationsLabel.place(relx = 0.05, rely = 0.3)
+		self.NumberOfGenerationsLabel.place(relx = 0.05, rely = 0.45)
 
 		self.NumberOfGenerationsSelection = Spinbox(self.window, from_ = 1, to = 1000)
-		self.NumberOfGenerationsSelection.place(relx = 0.5, rely = 0.3)
+		self.NumberOfGenerationsSelection.place(relx = 0.5, rely = 0.45)
 
 		self.GamesPerGenerationLabel = Label(self.window, text = "Games Per Generation:", fg = "black")
-		self.GamesPerGenerationLabel.place(relx = 0.05, rely = 0.4)
+		self.GamesPerGenerationLabel.place(relx = 0.05, rely = 0.65)
 
 		self.GamesPerGenerationSelection = Spinbox(self.window, from_ = 2, to = 10)
-		self.GamesPerGenerationSelection.place(relx = 0.5, rely = 0.4)
+		self.GamesPerGenerationSelection.place(relx = 0.5, rely = 0.65)
 
 	def Cancel(self):
 		self.window.destroy()

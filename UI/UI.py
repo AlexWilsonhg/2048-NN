@@ -8,6 +8,7 @@ from UI.ScoreGraph import ScoreGraph
 from UI.NewSimPopup import NewSimDialog
 from UI.GenerationCounter import GenerationCounter
 from UI.GenerationAverageScore import GenerationAverageScore
+from UI.SimLoadedPopup import SimLoadedPopup
 
 
 from Scoring.ScoreLog import ScoreLog
@@ -29,7 +30,6 @@ class UI(BusNode):
 		self.ToolbarFrame.place(relheight = 0.05, relwidth = 0.95, relx = 0.025, rely = 0.025)
 
 		# New Sim Button
-
 		self.NewSimButton = ttk.Button(self.ToolbarFrame, text = "New Sim", command = self.NewSimPopup)
 		self.NewSimButton.place(relx = 0)		
 
@@ -74,6 +74,12 @@ class UI(BusNode):
 			self.ScoreLog.AddScore(event.score)
 			self.CurrentGenerationScore.Update(self.ScoreLog.GetCurrentGenerationAverage())
 
+		if(type(event) == SIMULATION_CREATION_FAILED):
+			self.SimLoadedPopup("Sim Creation Failed")
+
+		if(type(event) == SIMULATION_CREATION_SUCCESS):
+			self.SimLoadedPopup("Sim Created")
+
 	def PauseSim(self):
 		super().SendEvent(PAUSE_SIMULATION())
 
@@ -95,3 +101,6 @@ class UI(BusNode):
 
 	def NewSimPopup(self):
 		NewSimPopup = NewSimDialog(self)
+
+	def SimLoadedPopup(self, message):
+		SimLoaded = SimLoadedPopup(self.window, message)

@@ -21,6 +21,7 @@ class Simulator(BusNode):
         self.gamesPerGeneration = 0
         self.genetics = Genetics(0.1,0.05)
         self.running = False
+        self.hasActiveSim = False
 
         super().__init__(eventBus)
         self.bus = eventBus
@@ -51,7 +52,7 @@ class Simulator(BusNode):
 
                          
     def Update(self, deltaTime):
-        if(self.running):
+        if(self.hasActiveSim and self.running):
             if(self.HasActivePlayers()):
                 self.UpdateGamePlayers(deltaTime)
             elif(self.HasGenerationsRemaining()):
@@ -88,10 +89,20 @@ class Simulator(BusNode):
         self.avgScores = []
         self.generations = generations
         self.gamesPerGeneration = gamesPerGeneration
-        for i in range(numPlayers):
-            game = gameSource()
-            self.inactivePlayers.append(GamePlayer(NeuralNet([16,32,4], 0.01), game, self.bus))
+
+        try:
+            for i in range(numPlayers):
+                game = gameSource()
+                self.inactivePlayers.append(GamePlayer(NeuralNet([16,32,4], 0.01), game, self.bus))
+        except:
+            super().SendEvent(SIMULATION_CREATION_FAILED())
+            self.hasActiveSim = False
+            return
+
         self.ResetGamePlayers()
+        self.hasActiveSim = True
+        super().SendEvent(SIMULATION_CREATION_SUCCESS())
+
 
     def CloseSimulation(self):
         self.Pause()

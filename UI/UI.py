@@ -18,6 +18,9 @@ class UI(BusNode):
 	def __init__(self, eventBus):
 		super().__init__(eventBus)
 
+		self.updateFrequency = 0.016
+		self.timeSinceLastUpdate = 0
+
 		## Main Window
 		self.window = Tk()
 		self.window.title('2048 Neural Evolution')
@@ -59,11 +62,14 @@ class UI(BusNode):
 		self.ScoreLog = ScoreLog()
 		
 
-	def Update(self):
-		self.ScoreGraph.Update(self.ScoreLog.GetAverageScores())
-		self.GenerationCounter.Update()
-		
-		self.window.update()
+	def Update(self, deltaTime):
+		self.timeSinceLastUpdate += deltaTime
+		if(self.timeSinceLastUpdate >= self.updateFrequency):
+			self.timeSinceLastUpdate = 0
+			self.ScoreGraph.Update(self.ScoreLog.GetAverageScores())
+			self.GenerationCounter.Update()
+			
+			self.window.update()
 
 	def OnEvent(self, event):
 		if(type(event) == NEW_GENERATION):

@@ -1,5 +1,13 @@
 from .iGame import iGame
 import os
+import subprocess
+import pymem
+
+from ctypes import *
+from ctypes.wintypes import *
+
+OpenProcess = windll.kernel32.OpenProcess
+ReadProcessMemory = windll.kernel32.ReadProcessMemory
 
 class Desktop2048(iGame):
 
@@ -10,10 +18,11 @@ class Desktop2048(iGame):
         return True
 
     def GetScore(self):
-        return 0
+        pass
 
     def GetTiles(self):
         tiles = [0] * 16
+        return tiles
 
     def NewGame(self):
         pass

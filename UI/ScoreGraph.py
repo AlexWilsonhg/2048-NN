@@ -13,7 +13,7 @@ class ScoreGraph:
 		self.BarPadding = 2
 		self.BarWidth = width/50
 
-		self.yMax = 3000
+		self.yMax = 10000
 		self.yMin = 0
 
 
@@ -25,7 +25,7 @@ class ScoreGraph:
 	def Reset(self):
 		self.canvas.delete("all")
 		self.BarWidth = self.width/50
-		self.yMax = 3000
+		self.yMax = 10000
 		self.yMin = 0
 
 	def Draw(self, bars):

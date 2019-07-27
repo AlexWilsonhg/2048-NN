@@ -93,7 +93,7 @@ class Simulator(BusNode):
         try:
             for i in range(numPlayers):
                 game = gameSource()
-                self.inactivePlayers.append(GamePlayer(NeuralNet([16,32,4], 0.01), game, self.bus))
+                self.inactivePlayers.append(GamePlayer(NeuralNet([16,32,32,4], 0.01), game, self.bus))
         except:
             super().SendEvent(SIMULATION_CREATION_FAILED())
             self.hasActiveSim = False

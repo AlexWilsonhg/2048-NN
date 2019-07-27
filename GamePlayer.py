@@ -3,7 +3,7 @@ from Messaging.Events import *
 
 class GamePlayer(BusNode):
 
-    def __init__(self, brain, game, eventBus, moveDelay = 0.125):
+    def __init__(self, brain, game, eventBus, moveDelay = 0):
         self.game = game
         self.brain = brain
         self.scores = []

@@ -66,19 +66,18 @@ class UI(BusNode):
 		self.timeSinceLastUpdate += deltaTime
 		if(self.timeSinceLastUpdate >= self.updateFrequency):
 			self.timeSinceLastUpdate = 0
-			self.ScoreGraph.Update(self.ScoreLog.GetAverageScores())
-			self.GenerationCounter.Update()
-			
 			self.window.update()
 
 	def OnEvent(self, event):
 		if(type(event) == NEW_GENERATION):
 			self.ScoreLog.AdvanceGeneration()
 			self.GenerationCounter.AdvanceGeneration()
+			self.GenerationCounter.Update()
 
 		if(type(event) == GAME_OVER):
 			self.ScoreLog.AddScore(event.score)
 			self.CurrentGenerationScore.Update(self.ScoreLog.GetCurrentGenerationAverage())
+			self.ScoreGraph.Update(self.ScoreLog.GetAverageScores())
 
 		if(type(event) == SIMULATION_CREATION_FAILED):
 			self.SimLoadedPopup("Sim Creation Failed")

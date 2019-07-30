@@ -10,7 +10,7 @@ class Application():
 		self.ui = UI(self.bus)
 
 	def Update(self, deltaTime):
-		self.ui.Update()
+		self.ui.Update(deltaTime)
 		self.simulator.Update(deltaTime)
 		self.bus.NotifyListeners()
 		
